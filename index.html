@@ -62,7 +62,7 @@
   <h1>🌍 인사말로 나라 알아맞히기</h1>
   <p class="guide">
     마이크에 대고 인사해보세요!<br>
-    👉 <strong>Hello</strong>, <strong>안녕</strong>, <strong>Bonjour</strong> 중 하나를 말하면,<br>
+    👉 <strong>헬로</strong>, <strong>안녕</strong>, <strong>봉쥬르</strong> 중 하나를 말하면,<br>
     어떤 언어인지 맞히고 나라와 문화를 알려줄게요 🎤
   </p>
 
@@ -96,25 +96,34 @@
 
       recognizer.listen(result => {
         const scores = result.scores;
+
+        // 가장 높은 확률의 클래스만 가져오기
         const maxScoreIndex = scores.indexOf(Math.max(...scores));
         const label = classLabels[maxScoreIndex];
         const confidence = (scores[maxScoreIndex] * 100).toFixed(1);
 
+        // 잡음 또는 기타 예측은 무시
+        if (label === "_background_noise_" || label === "배경소음" || confidence < 75) {
+          return;
+        }
+
         let gptMessage = "";
 
-        if (label === "Hello") {
+        if (label === "헬로") {
           gptMessage = `“Hello”는 영어 인사말입니다. 미국, 영국, 캐나다 등에서 자주 사용되며, 친근한 첫 인사로 많이 쓰여요. 🇺🇸🇬🇧`;
         } else if (label === "안녕") {
           gptMessage = `“안녕”은 한국어 인사로, 친구나 가까운 사람에게 쓰는 따뜻한 표현이에요. 🇰🇷`;
-        } else if (label === "Bonjour") {
-          gptMessage = `“Bonjour”는 프랑스어로 “좋은 하루”라는 뜻입니다. 아침에 인사할 때 자주 사용해요. 🇫🇷`;
+        } else if (label === "봉쥬르") {
+          gptMessage = `“Bonjour”는 프랑스어로 “좋은 하루”라는 뜻입니다. 아침 인사로 자주 사용해요. 🇫🇷`;
+        } else {
+          gptMessage = `알 수 없는 인사말이에요. 다시 시도해보세요.`;
         }
 
         resultBox.innerHTML = `<strong>${label}</strong> (${confidence}%)<br>${gptMessage}`;
       }, {
         includeSpectrogram: true,
         probabilityThreshold: 0.75,
-        invokeCallbackOnNoiseAndUnknown: false, // 배경소음 무시
+        invokeCallbackOnNoiseAndUnknown: false,
         overlapFactor: 0.5
       });
     }
