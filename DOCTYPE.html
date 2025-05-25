@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MBTI S/N 구분 퀴즈</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #ffe6f0;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #ff66a3;
+    }
+    .question {
+      background-color: #fff0f5;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.2);
+      margin-bottom: 20px;
+    }
+    .question h2 {
+      font-size: 1.2em;
+      color: #d63384;
+    }
+    .question-tip {
+      text-align: center;
+      font-size: 1em;
+      color: #c71585;
+      margin-top: 10px;
+      background-color: #ffe6f0;
+      padding: 10px;
+      border-radius: 15px;
+    }
+    button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background-color: #ff99cc;
+      color: white;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #ff66a3;
+    }
+    #result {
+      text-align: center;
+      font-size: 1.4em;
+      background-color: #fff0f5;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
+      margin-top: 30px;
+      color: #d63384;
+    }
+    #result a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #ff66a3;
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      transition: background-color 0.3s;
+    }
+    #result a:hover {
+      background-color: #ff3385;
+    }
+    #thanks {
+      text-align: center;
+      font-size: 1.1em;
+      margin-top: 20px;
+      color: #c71585;
+      background-color: #ffe6f0;
+      padding: 10px;
+      border-radius: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌸 MBTI S/N 구분 퀴즈 🌸</h1>
+  <div class="question" id="quiz-container">
+    <!-- Questions will be injected here -->
+  </div>
+  <div class="question-tip" id="question-tip">💡 지금 당신의 성향을 알아보세요! 재미있는 질문이 기다리고 있어요!</div>
+  <div id="result"></div>
+  <div id="thanks"></div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Q1. 여행을 계획할 때 나는…",
+        answers: [
+          { text: "숙소, 일정, 경로를 미리 다 조사하고 계획해서 떠난다", type: "S" },
+          { text: "대략적인 방향만 정하고 현지에서 즉흥적으로 움직이는 걸 선호한다", type: "N" }
+        ]
+      },
+      {
+        question: "Q2. 새로운 프로젝트를 맡게 되었을 때 나는…",
+        answers: [
+          { text: "지금 당장 필요한 자료나 정보를 빠르게 수집해서 시작한다", type: "S" },
+          { text: "이 프로젝트가 가져올 수 있는 미래의 영향이나 확장성을 먼저 생각한다", type: "N" }
+        ]
+      },
+      {
+        question: "Q3. 친구가 고민을 털어놓을 때 나는…",
+        answers: [
+          { text: "그 상황을 정확히 어떻게 겪었는지, 어떤 일이 있었는지 먼저 묻는다", type: "S" },
+          { text: "그 친구의 감정과 앞으로 어떻게 될지를 상상하면서 공감한다", type: "N" }
+        ]
+      },
+      {
+        question: "Q4. 이야기를 할 때 나는…",
+        answers: [
+          { text: "실례나 구체적인 경험을 바탕으로 이야기하는 걸 좋아한다", type: "S" },
+          { text: "비유나 상징을 써서 말하거나, 이야기를 추상적으로 풀어가는 걸 좋아한다", type: "N" }
+        ]
+      },
+      {
+        question: "Q5. 나는 평소에…",
+        answers: [
+          { text: "매뉴얼, 설명서, 구체적인 지침이 있는 걸 더 선호한다", type: "S" },
+          { text: "큰 그림만 있으면 세부사항은 알아서 풀어나가는 편이다", type: "N" }
+        ]
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = { S: 0, N: 0 };
+
+    function loadQuestion() {
+      const quizContainer = document.getElementById('quiz-container');
+      const resultContainer = document.getElementById('result');
+      const thanksContainer = document.getElementById('thanks');
+      const tipContainer = document.getElementById('question-tip');
+      resultContainer.innerHTML = '';
+      thanksContainer.innerHTML = '';
+      quizContainer.innerHTML = '';
+      tipContainer.style.display = 'block';
+
+      if (currentQuestion < quizData.length) {
+        const q = quizData[currentQuestion];
+        const h2 = document.createElement('h2');
+        h2.textContent = q.question;
+        quizContainer.appendChild(h2);
+
+        q.answers.forEach(answer => {
+          const button = document.createElement('button');
+          button.textContent = answer.text;
+          button.onclick = () => {
+            score[answer.type]++;
+            currentQuestion++;
+            loadQuestion();
+          };
+          quizContainer.appendChild(button);
+        });
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      const quizContainer = document.getElementById('quiz-container');
+      const tipContainer = document.getElementById('question-tip');
+      quizContainer.innerHTML = '';
+      tipContainer.style.display = 'none';
+      const resultContainer = document.getElementById('result');
+      const thanksContainer = document.getElementById('thanks');
+      const resultType = score.S > score.N ? 'S (감각형)' : 'N (직관형)';
+      const resultDesc = score.S > score.N
+        ? '당신은 현재에 집중하고, 실용적이며 구체적인 정보를 중요시하는 <strong>감각형(S)</strong>입니다!'
+        : '당신은 상상력과 가능성에 집중하고, 큰 그림을 중시하는 <strong>직관형(N)</strong>입니다!';
+
+      resultContainer.innerHTML = `
+        <p>🌺 <strong>${resultType}</strong> 결과입니다! 🌺</p>
+        <p>${resultDesc}</p>
+        <a href="https://pk123123.github.io/gkrrydptj/mbtitfa" target="_blank">🧠 MBTI T/F 유형 테스트</a><br>
+        <a href="https://jju1202.github.io/AI/" target="_blank">🧭 MBTI J/P 유형 테스트</a>
+        <br><br>
+        <button onclick="restartQuiz()">🔄 다시 시작하기</button>
+      `;
+
+      thanksContainer.innerHTML = '🎉 퀴즈를 끝까지 풀어주셔서 감사합니다! 재미있게 즐기셨기를 바랍니다. 🎀';
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      score = { S: 0, N: 0 };
+      loadQuestion();
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
