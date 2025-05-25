@@ -1,104 +1,124 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>음성으로 나라 맞히기</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/speech-commands@0.4.0/dist/speech-commands.min.js"></script>
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            padding: 50px;
-        }
+  <meta charset="UTF-8">
+  <title>🎙️ 인사말로 나라 알아맞히기</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/speech-commands@0.4.0/dist/speech-commands.min.js"></script>
+  <style>
+    body {
+      background-color: #fff0f5;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
 
-        h1 {
-            font-size: 2em;
-            margin-bottom: 30px;
-            color: #343a40;
-        }
+    h1 {
+      font-size: 2em;
+      color: #d63384;
+      margin-bottom: 10px;
+    }
 
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.1em;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-bottom: 30px;
-            transition: background-color 0.3s ease;
-        }
+    p.description {
+      font-size: 1em;
+      color: #6c757d;
+      margin-bottom: 40px;
+    }
 
-        button:hover {
-            background-color: #45a049;
-        }
+    button {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.1em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-bottom: 30px;
+    }
 
-        #label-container {
-            margin-top: 20px;
-        }
+    button:hover {
+      background-color: #e0559d;
+    }
 
-        #label-container div {
-            background-color: #ffffff;
-            margin: 10px auto;
-            padding: 15px;
-            border-radius: 10px;
-            width: 300px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            font-size: 1.1em;
-            color: #212529;
-        }
-    </style>
+    #label-container {
+      margin-top: 20px;
+    }
+
+    .result-box {
+      background-color: #ffe0ef;
+      padding: 20px;
+      margin: 0 auto;
+      border-radius: 12px;
+      width: 320px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      font-size: 1.1em;
+      color: #343a40;
+    }
+  </style>
 </head>
 <body>
 
-    <h1>🎤 음성 인사말로 나라 알아맞히기</h1>
-    <button type="button" onclick="init()">음성 인식 시작하기</button>
-    <div id="label-container"></div>
+  <h1>🌍 인사말로 나라 알아맞히기</h1>
+  <p class="description">
+    마이크에 인사말을 말해보세요!<br>
+    <strong>Teachable Machine</strong>이 어떤 언어인지 분류하고,<br>
+    <strong>GPT</strong>가 그 언어가 사용되는 나라, 인사말 뜻, 문화를 알려줘요 🎤🌏
+  </p>
 
-    <script type="text/javascript">
-        const URL = "https://teachablemachine.withgoogle.com/models/7CXEcLcew/";
+  <button onclick="init()">🎧 음성 인식 시작하기</button>
+  <div id="label-container">
+    <div class="result-box" id="result-text">예측 결과가 여기에 표시됩니다</div>
+  </div>
 
-        async function createModel() {
-            const checkpointURL = URL + "model.json";
-            const metadataURL = URL + "metadata.json";
+  <script type="text/javascript">
+    const URL = "https://teachablemachine.withgoogle.com/models/7CXEcLcew/";
 
-            const recognizer = speechCommands.create(
-                "BROWSER_FFT",
-                undefined,
-                checkpointURL,
-                metadataURL
-            );
+    async function createModel() {
+      const checkpointURL = URL + "model.json";
+      const metadataURL = URL + "metadata.json";
 
-            await recognizer.ensureModelLoaded();
-            return recognizer;
+      const recognizer = speechCommands.create(
+        "BROWSER_FFT",
+        undefined,
+        checkpointURL,
+        metadataURL
+      );
+
+      await recognizer.ensureModelLoaded();
+      return recognizer;
+    }
+
+    async function init() {
+      const recognizer = await createModel();
+      const classLabels = recognizer.wordLabels();
+      const resultBox = document.getElementById("result-text");
+
+      recognizer.listen(result => {
+        const scores = result.scores;
+        const maxScoreIndex = scores.indexOf(Math.max(...scores));
+        const label = classLabels[maxScoreIndex];
+        const confidence = (scores[maxScoreIndex] * 100).toFixed(1);
+
+        let gptMessage = "";
+
+        if (label === "Hello") {
+          gptMessage = `“Hello”는 영어권에서 쓰이는 인사말입니다. 미국, 영국, 캐나다 등에서 사용되며, 친근하게 첫 인사를 할 때 사용해요. 😊`;
+        } else if (label === "안녕") {
+          gptMessage = `“안녕”은 한국어로, 친구나 가까운 사이에서 사용하는 인사예요. 정겹고 따뜻한 분위기를 전달합니다. 🇰🇷`;
+        } else if (label === "Bonjour") {
+          gptMessage = `“Bonjour”는 프랑스어 인사말로, “좋은 하루”라는 뜻이에요. 아침 인사로 자주 쓰이며 예의 바른 표현입니다. 🇫🇷`;
         }
 
-        async function init() {
-            const recognizer = await createModel();
-            const classLabels = recognizer.wordLabels();
-            const labelContainer = document.getElementById("label-container");
-            labelContainer.innerHTML = ""; // 이전 결과 초기화
-
-            for (let i = 0; i < classLabels.length; i++) {
-                labelContainer.appendChild(document.createElement("div"));
-            }
-
-            recognizer.listen(result => {
-                const scores = result.scores;
-                for (let i = 0; i < classLabels.length; i++) {
-                    const classPrediction = classLabels[i] + ": " + (scores[i] * 100).toFixed(1) + "%";
-                    labelContainer.childNodes[i].innerHTML = classPrediction;
-                }
-            }, {
-                includeSpectrogram: true,
-                probabilityThreshold: 0.75,
-                invokeCallbackOnNoiseAndUnknown: true,
-                overlapFactor: 0.5
-            });
-        }
-    </script>
+        resultBox.innerHTML = `<strong>${label}</strong> (${confidence}%)<br>${gptMessage}`;
+      }, {
+        includeSpectrogram: false,
+        probabilityThreshold: 0.75,
+        invokeCallbackOnNoiseAndUnknown: false, // 🔇 배경소음 무시
+        overlapFactor: 0.5
+      });
+    }
+  </script>
 
 </body>
 </html>
