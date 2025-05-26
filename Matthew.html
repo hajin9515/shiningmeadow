@@ -171,20 +171,11 @@ const quizData = [
       document.getElementById("question").innerText = `Q${currentQuestion + 1}. ${q.question}`;
       document.getElementById("options").innerHTML = q.options.map((opt, idx) =>
         `<button onclick="checkAnswer(${idx})">${opt}</button>`).join('');
-      document.getElementById("message").innerText = `🍑 매튜가 말해요: '석류~ 할 수 있어! 파이팅~'`;
+      document.getElementById("message").innerText = `💖 매튜가 말해요: '석류~ 할 수 있어! 파이팅~'`;
       document.getElementById("explanation").innerText = "";
       document.getElementById("prevBtn").style.display = currentQuestion === 0 ? "none" : "inline-block";
       document.getElementById("nextBtn").style.display = currentQuestion === quizData.length - 1 ? "none" : "inline-block";
       document.getElementById("submitBtn").classList.toggle("hidden", currentQuestion !== quizData.length - 1);
-    }
-
-    function checkAnswer(selected) {
-      const correct = quizData[currentQuestion].answer;
-      score += selected === correct ? 1 : 0;
-      document.getElementById("message").innerText = selected === correct
-        ? `💖 매튜: '맞췄어~ 완전 대단해!'`
-        : `😢 매튜: '아깝다~ 하지만 다음 문제도 있어!'`;
-      document.getElementById("explanation").innerText = `📘 힌트: ${quizData[currentQuestion].explanation}`;
     }
 
     function goToPrevious() {
@@ -223,7 +214,7 @@ const quizData = [
       if (score >= quizData.length * 0.7) {
         document.getElementById("matthewImage").style.display = "block";
       }
-      document.getElementById("message").innerText = "🍑 매튜가 말해요: '고생했어!'";
+      document.getElementById("message").innerText = "💖 매튜가 말해요: '고생했어!'";
       document.getElementById("startOver").classList.remove("hidden");
       document.getElementById("shareBtn").classList.remove("hidden");
       document.getElementById("prevBtn").style.display = "none";
