@@ -67,33 +67,36 @@
 
     .hidden { display: none; }
 
-    .result-box-cute {
-      background: #fff0f7;
-      border: 3px dashed #ffaad4;
-      border-radius: 25px;
-      padding: 30px 20px;
-      max-width: 500px;
-      margin: 30px auto;
-      box-shadow: 0 8px 18px rgba(255, 192, 203, 0.4);
-      text-align: center;
-      color: #6b003e;
-      font-family: 'Gowun Dodum', sans-serif;
-      position: relative;
-    }
 
-    .result-ribbon {
-      position: absolute;
-      top: -18px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #ffaad4;
-      color: white;
-      padding: 6px 14px;
-      font-size: 14px;
-      font-weight: bold;
-      border-radius: 15px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
+.result-box-cute {
+  background: #fff0f7;
+  border: 3px dashed #ffaad4;
+  border-radius: 25px;
+  padding: 50px 20px 30px 20px;
+  width: 100%; 
+  max-width: 500px;
+  margin: 30px auto;
+  box-shadow: 0 8px 18px rgba(255, 192, 203, 0.4);
+  text-align: center;
+  color: #6b003e;
+  font-family: 'Gowun Dodum', sans-serif;
+  position: relative;
+  box-sizing: border-box; 
+}
+
+.result-ribbon {
+  position: relative;
+  background-color: #ffaad4;
+  color: white;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
 
     .result-content p {
       margin: 10px 0;
@@ -188,22 +191,29 @@
     </div>
 
     <div id="resultContainer" class="hidden">
-      <div class="result-box-cute">
-        <div class="result-ribbon">💖 매튜와 나의 거리? 528cm!</div>
-        <div class="result-content">
-          <p class="fan-rank" id="rank"></p>
-          <p class="score" id="scoreText"></p>
-          <p class="message" id="message"></p>
-          <p class="encouragement" id="encouragement"></p>
-          <a href="https://namu.wiki/w/%EC%84%9D%EB%A7%A4%ED%8A%9C" target="_blank" class="wiki-link-cute">💗 매튜와 더 가까워지는 방법</a>
-        </div>
-        <div class="result-buttons">
-          <button onclick="startQuiz()">🔁 다시 풀기</button>
-          <button onclick="shareResult()">📤 결과 공유하기</button>
-        </div>
-<button class="download-btn" onclick="downloadResultCard()">📸 이미지 저장하기</button>
-      </div>
+  <!-- 🎀 핑크 박스 안: 리본 + 결과 내용만 -->
+  <div class="result-box-cute">
+    <div class="result-ribbon">💖 매튜와 나의 거리? 528cm!</div>
+    <div class="result-content">
+      <p class="fan-rank" id="rank"></p>
+      <p class="score" id="scoreText"></p>
+      <p class="message" id="message"></p>
+      <p class="encouragement" id="encouragement"></p>
+      <a href="https://namu.wiki/w/%EC%84%9D%EB%A7%A4%ED%8A%9C" target="_blank" class="wiki-link-cute">
+        💗 매튜와 더 가까워지는 방법
+      </a>
     </div>
+  </div>
+
+  <!-- ✅ 박스 밖: 다시풀기 / 공유 버튼 -->
+  <div class="result-buttons">
+    <button onclick="startQuiz()">🔁 다시 풀기</button>
+    <button onclick="shareResult()">📤 결과 공유하기</button>
+  </div>
+
+  <!-- ✅ 그 아래: 이미지 저장 버튼 -->
+  <button class="download-btn" onclick="downloadResultCard()">📸 이미지 저장하기</button>
+
   </div>
 
  <audio id="bgMusic" loop>
@@ -343,7 +353,11 @@ function toggleMusic() {
 }
 function downloadResultCard() {
   const resultBox = document.querySelector(".result-box-cute");
-  html2canvas(resultBox).then(canvas => {
+  html2canvas(resultBox, {
+    backgroundColor: null,
+    scale: 2,
+    useCORS: true
+  }).then(canvas => {
     const link = document.createElement("a");
     link.download = 'matthew_result.png';
     link.href = canvas.toDataURL("image/png");
