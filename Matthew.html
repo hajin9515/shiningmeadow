@@ -156,7 +156,7 @@
       <h2>💖 매튜에 대해 얼마나 알고 있을까?</h2>
       <p>지금부터 팬심 테스트를 시작해볼까?</p>
       <button class="start-btn" onclick="startQuiz()">🎯 퀴즈 시작하기</button>
-      <button class="music-toggle" onclick="toggleMusic()">🎵</button>
+      <button id="musicToggleBtn" class="music-toggle" onclick="toggleMusic()">🔇</button>
     </div>
 
     <div id="quizContainer" class="hidden">
@@ -188,10 +188,10 @@
     </div>
   </div>
 
-  <iframe id="bgMusic" width="0" height="0" style="display:none;"
-    src="https://www.youtube.com/embed/ym-YtnwNhAk?autoplay=1&loop=1&playlist=ym-YtnwNhAk"
-    title="배경 음악" frameborder="0" allow="autoplay; encrypted-media">
-  </iframe>
+ <audio id="bgMusic" loop>
+  <source src="https://github.com/hajin9515/shiningmeadow/blob/main/images/bg.mp3?raw=true" type="audio/mpeg">
+  브라우저가 오디오를 지원하지 않아요.
+</audio>
 
   <script>
 
@@ -305,14 +305,18 @@ function showQuestion() {
       }
     }
 
-    function toggleMusic() {
-      const music = document.getElementById("bgMusic");
-      if (music.style.display === "none") {
-        music.style.display = "block";
-      } else {
-        music.style.display = "none";
-      }
-    }
+function toggleMusic() {
+  const music = document.getElementById("bgMusic");
+  const button = document.getElementById("musicToggleBtn");
+
+  if (music.paused) {
+    music.play();
+    button.innerText = "🔊";
+  } else {
+    music.pause();
+    button.innerText = "🔇";
+  }
+}
   </script>
 </body>
 </html>
