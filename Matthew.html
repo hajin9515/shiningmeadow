@@ -184,6 +184,9 @@
       <div id="question" class="question"></div>
       <div id="mediaContainer" class="question-media"></div>
       <div id="options" class="options"></div>
+<div style="margin-top: 15px;">
+  <button id="musicControlInQuiz" onclick="toggleMusic()">🔊</button>
+</div>
       <div style="margin-top: 20px;">
         <button id="prevBtn" onclick="goToPrevious()">⬅ 이전</button>
         <button id="nextBtn" onclick="goToNext()">다음 ➡</button>
@@ -210,7 +213,7 @@
     </div>
   </div>
 
- <audio id="bgMusic" autoplay loop>
+ <audio id="bgMusic" loop>
   <source src="https://github.com/hajin9515/shiningmeadow/blob/main/images/bg.mp3?raw=true" type="audio/mpeg">
   브라우저가 오디오를 지원하지 않아요.
 </audio>
@@ -272,14 +275,20 @@ function showQuestion() {
 }
 
 
-    function startQuiz() {
-      quizData.forEach(q => delete q.userAnswer);
-      currentQuestion = 0;
-      document.getElementById("introContainer").classList.add("hidden");
-      document.getElementById("quizContainer").classList.remove("hidden");
-      document.getElementById("resultContainer").classList.add("hidden");
-      showQuestion();
-    }
+function startQuiz() {
+  const music = document.getElementById("bgMusic");
+  if (music && music.paused) {
+    music.play();
+    document.getElementById("musicControlInQuiz").innerText = "🔊";
+  }
+
+  quizData.forEach(q => delete q.userAnswer);
+  currentQuestion = 0;
+  document.getElementById("introContainer").classList.add("hidden");
+  document.getElementById("quizContainer").classList.remove("hidden");
+  document.getElementById("resultContainer").classList.add("hidden");
+  showQuestion();
+}
 
     function selectAnswer(idx) {
       quizData[currentQuestion].userAnswer = idx;
@@ -329,14 +338,14 @@ function showQuestion() {
 
 function toggleMusic() {
   const music = document.getElementById("bgMusic");
-  const button = document.getElementById("musicToggleBtn");
+  const buttons = document.querySelectorAll("#musicToggleBtn, #musicControlInQuiz");
 
   if (music.paused) {
     music.play();
-    button.innerText = "🔊";
+    buttons.forEach(btn => btn.innerText = "🔊");
   } else {
     music.pause();
-    button.innerText = "🔇";
+    buttons.forEach(btn => btn.innerText = "🔇");
   }
 }
 function downloadResultCard() {
@@ -348,12 +357,7 @@ function downloadResultCard() {
     link.click();
   });
 }
-window.addEventListener('click', () => {
-  const music = document.getElementById("bgMusic");
-  if (music && music.paused) {
-    music.play();
-  }
-}, { once: true });
+
   </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
