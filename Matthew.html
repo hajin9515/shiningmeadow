@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <!-- OG 메타태그 설정: 링크 공유 시 이미지/제목/설명 자동 표시 -->
-  <meta property="og:title" content="매튜와 나의 거리? 528cm!">
-  <meta property="og:description" content="나는 매튜와 얼마나 가까울까? 팬심 테스트 지금 바로 시작!">
-  <meta property="og:image" content="https://i.namu.wiki/i/zxKSOVhlzYpwhTA_eFdzr241tM_H0l16JwF9D9TnYLLGsYLTdCbCsK3y2fQ-PYqQvcLS5XJo0shL7gAI3tQDTPPsp80gKOuJC2WzJMPsjzqnXTA8rZM03NA9Y7i7NlbVGruAdlic56RJT0a9zT3V5g.webp">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://yourquizsite.com/matthew528">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="매튜와 나의 거리?">
-  <meta name="twitter:description" content="당신과 매튜 사이의 거리는...? 지금 바로 확인해보세요!">
-  <meta name="twitter:image" content="https://i.namu.wiki/i/zxKSOVhlzYpwhTA_eFdzr241tM_H0l16JwF9D9TnYLLGsYLTdCbCsK3y2fQ-PYqQvcLS5XJo0shL7gAI3tQDTPPsp80gKOuJC2WzJMPsjzqnXTA8rZM03NA9Y7i7NlbVGruAdlic56RJT0a9zT3V5g.webp">
-
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>매튜와 나의 거리? 528cm!</title>
+
+  <!-- Open Graph (OG) 메타태그: SNS 공유용 -->
+  <meta property="og:title" content="매튜와 나의 거리? 528cm!" />
+  <meta property="og:description" content="나는 매튜와 얼마나 가까울까? 팬심 테스트 지금 바로 시작!" />
+  <meta property="og:image" content="https://hajin123.github.io/matthew-quiz/images/matthew-thumbnail.jpg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hajin123.github.io/matthew-quiz/" />
+
+  <!-- Twitter 카드 메타태그 -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="매튜와 나의 거리?" />
+  <meta name="twitter:description" content="당신과 매튜 사이의 거리는...? 지금 바로 확인해보세요!" />
+  <meta name="twitter:image" content="https://hajin123.github.io/matthew-quiz/images/matthew-thumbnail.jpg" />
+
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -55,23 +58,46 @@
       background-color: #fff8b3 !important;
       border: 2px solid #f7ce4e;
     }
-    .message, .result, .explanation {
-      font-size: 16px;
+    .result-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #ff3399;
+    }
+    .fan-rank {
+      font-size: 22px;
+      font-weight: bold;
+      margin: 10px 0;
+      color: #f57c00;
+    }
+    .score {
+      font-size: 18px;
+      font-weight: bold;
+      color: #0077cc;
+    }
+    .encouragement {
+      margin: 15px 0;
+      color: #333;
+    }
+    .wiki-link {
+      display: inline-block;
+      margin: 10px 0;
+      padding: 8px 16px;
+      background-color: #ffe0f0;
+      color: #d10072;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+    .message {
       margin: 10px 0;
       color: #2c3e50;
     }
-    .result {
-      font-weight: bold;
-      font-size: 20px;
+    .result-buttons {
+      margin-top: 20px;
     }
-    .matthew-img {
-      margin-top: 15px;
-      display: none;
-      max-width: 100%;
-      border-radius: 10px;
-    }
-    .start-over, .share-btn, .start-btn {
-      margin-top: 10px;
+    .start-over, .share-btn {
+      margin: 5px;
       padding: 10px 20px;
       background-color: #cceeff;
       color: #003f5c;
@@ -80,133 +106,84 @@
       cursor: pointer;
       font-size: 14px;
     }
-    .toggle-music {
-      background: none;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      color: #0077cc;
-      margin-left: 10px;
-      transition: transform 0.2s ease;
-    }
-    .toggle-music:hover {
-      transform: scale(1.2);
-      color: #ff3399;
-    }
-    .hidden {
-      display: none;
-    }
-    @media (max-width: 600px) {
-      .quiz-box { padding: 15px; }
-      .question { font-size: 18px; }
-      .options button { font-size: 14px; }
-    }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
-
-  <!-- 이미지 + 음악 버튼 -->
-  <div style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
-    <img src="https://i.namu.wiki/i/zxKSOVhlzYpwhTA_eFdzr241tM_H0l16JwF9D9TnYLLGsYLTdCbCsK3y2fQ-PYqQvcLS5XJo0shL7gAI3tQDTPPsp80gKOuJC2WzJMPsjzqnXTA8rZM03NA9Y7i7NlbVGruAdlic56RJT0a9zT3V5g.webp"
-         alt="석매튜 이미지" style="max-width: 200px; border-radius: 15px;">
-    <button class="toggle-music" onclick="toggleMusic()" title="배경 음악 ON/OFF">🎵</button>
-  </div>
-
   <div class="quiz-box">
-    <h1 style="font-size: 24px; margin-bottom: 15px;">💗 매튜와 나의 거리? 528cm!</h1>
-    
-    <div id="startContainer">
-      <p>매튜에 대해 얼마나 알고 있을까? 시작 버튼을 눌러 테스트해보세요!</p>
-      <button class="start-btn" onclick="startQuiz()">🎯 퀴즈 시작하기</button>
-    </div>
-
-    <div id="quizContainer" class="hidden">
+    <div id="quizContainer">
       <div id="question" class="question"></div>
       <div id="options" class="options"></div>
-      <div id="message" class="message"></div>
-      <div id="explanation" class="explanation"></div>
-      <div id="result" class="result"></div>
-      <img id="matthewImage" class="matthew-img"
-           src="https://i.namu.wiki/i/Nw7jX1Y93zCv4m9Yacxbn_fygh0WdtNdN2M37_47mZsmpLyo6mQICd-vlrQke5baFGIGPB8nDHwJ9uT9MHWiCQftu12xGM5IlNw3eYN9asQCJPKJeLpcsyPLVaxRY0rbwiCLlygSnNtGpR6p_uYJrg.webp"
-           alt="매튜 축하 이미지">
       <div style="margin-top: 20px;">
-        <button id="prevBtn" class="start-over" onclick="goToPrevious()">⬅ 이전</button>
-        <button id="nextBtn" class="start-over" onclick="goToNext()">다음 ➡</button>
-        <button id="submitBtn" class="start-over hidden" onclick="showResult()">📊 결과보기</button>
+        <button id="prevBtn" onclick="goToPrevious()">⬅ 이전</button>
+        <button id="nextBtn" onclick="goToNext()">다음 ➡</button>
+        <button id="submitBtn" class="hidden" onclick="showResult()">📊 결과보기</button>
       </div>
-      <button id="startOver" class="start-over hidden" onclick="startQuiz()">🔁 다시 풀기</button>
-      <button id="shareBtn" class="share-btn hidden" onclick="shareResult()">📤 결과 공유하기</button>
+    </div>
+
+    <div id="resultContainer" class="hidden">
+      <div class="result-title">💗 매튜와 나의 거리? 528cm!</div>
+      <div class="fan-rank" id="rank"></div>
+      <div class="score" id="scoreText"></div>
+      <div class="message" id="message"></div>
+      <div class="encouragement" id="encouragement"></div>
+      <a href='https://namu.wiki/w/%EC%84%9D%EB%A7%A4%ED%8A%9C' target='_blank' class="wiki-link">매튜와 더 가까워지는 방법 💕</a>
+      <div class="result-buttons">
+        <button onclick="startQuiz()" class="start-over">🔁 다시 풀기</button>
+        <button onclick="shareResult()" class="share-btn">📤 결과 공유하기</button>
+      </div>
     </div>
   </div>
 
-  <iframe id="bgMusic" width="0" height="0" style="display:none;"
-    src="https://www.youtube.com/embed/ym-YtnwNhAk?autoplay=1&loop=1&playlist=ym-YtnwNhAk"
-    title="YouTube Audio Player" frameborder="0"
-    allow="autoplay; encrypted-media">
-  </iframe>
-
   <script>
-const quizData = [
-  { question: "석매튜는 어디에서 태어났나요?", options: ["캐나다 밴쿠버", "캐나다 토론토", "캐나다 써리", "미국 시애틀"], answer: 2, explanation: "석매튜는 캐나다 브리티시컬럼비아주 써리 출신이에요!" },
-  { question: "석매튜가 졸업한 고등학교는?", options: ["White Rock High", "Earl Marriott Secondary School", "Vancouver Arts School", "Maple Leaf Academy"], answer: 1, explanation: "그가 졸업한 고등학교는 South Surrey에 있는 Earl Marriott입니다." },
-  { question: "석매튜는 대학에서 어떤 전공을 하다 중퇴했나요?", options: ["생물학", "Health Science", "심리학", "체육학"], answer: 1, explanation: "웨스턴 대학교에서 Health Science를 전공했었어요." },
-  { question: "석매튜가 춤을 처음 시작한 나이는?", options: ["15살", "16살", "17살", "14살"], answer: 1, explanation: "16살 때 KTL Dance에서 댄서 활동을 시작했어요." },
-  { question: "석매튜가 연습생 제안을 처음 받았을 당시 어떤 선택을 했나요?", options: ["바로 수락하고 한국으로 왔다", "무시했다", "거절했다가 다시 연락했다", "캐나다에서 훈련을 시작했다"], answer: 2, explanation: "처음엔 거절했지만 나중에 관심이 생겨 다시 연락했다고 해요." },
-  { question: "보이즈플래닛 당시 석매튜는 G그룹 비주얼 투표에서 몇 위였나요?", options: ["1위", "2위", "3위", "4위"], answer: 1, explanation: "G그룹 비주얼 투표에서 2위를 차지했어요!" },
-  { question: "석매튜의 MBTI 성격 유형은?", options: ["ENFP", "INFP", "ENFJ", "ISTJ"], answer: 2, explanation: "그의 MBTI는 ENFJ로 알려져 있어요." },
-  { question: "석매튜가 영어 내레이션을 맡은 콘텐츠로 옳지 않은 것은?", options: ["2023 KCON LA", "‘__ BAD’ Film 티저", "2024 한터차트", "뮤직뱅크 MC 멘트"], answer: 3, explanation: "뮤직뱅크 MC는 맡지 않았어요." },
-  { question: "석매튜가 자주 언급한 자신의 매력 포인트는?", options: ["턱선", "복근", "눈웃음", "콧대"], answer: 2, explanation: "눈웃음이 매튜의 시그니처예요!" },
-  { question: "OX: 석매튜의 눈 양옆에 있는 점은 팬들 사이에서 '대칭점'이라 불린다.", options: ["O", "X"], answer: 0, explanation: "맞아요! 팬들 사이에서는 '대칭점'이라 부릅니다." },
-  { question: "OX: 석매튜는 입가에 점이 없어 ‘수염점’이란 별명은 존재하지 않는다.", options: ["O", "X"], answer: 1, explanation: "입가에 두 개의 점이 있어 '수염점'이라 불려요!" },
-  { question: "석매튜가 가장 자신 있어 하는 신체 부위는?", options: ["복근", "팔근육", "허벅지", "턱선"], answer: 1, explanation: "팔근육을 자신 있는 부위로 꼽았어요." },
-  { question: "석매튜가 무대에서 복근을 공개한 곡은?", options: ["Say My Name", "Back to ZEROBASE", "Love Killa", "In Bloom"], answer: 2, explanation: "보이즈플래닛 2차 경연곡 'Love Killa'에서 복근이 공개됐어요." },
-  { question: "석매튜가 작사에 참여한 콘텐츠는?", options: ["‘__ BAD’ Film 티저", "Back Pack", "Back to ZEROBASE", "MAMA VCR"], answer: 0, explanation: "‘__ BAD’ 티저 내레이션을 직접 썼어요!" },
-  { question: "석매튜가 실제로 팬들 손을 잡아준 장소는?", options: ["명동", "홍대", "강남", "이태원"], answer: 1, explanation: "홍대에서 팬들에게 손 인사를 해줬어요!" },
-  { question: "석매튜가 가장 좋아하는 시간대는?", options: ["아침 7시", "오후 12시", "오후 4시", "밤 10시"], answer: 1, explanation: "가장 좋아하는 시간은 점심 12시예요!" },
-  { question: "석매튜가 좋아하는 계절은?", options: ["여름", "겨울", "가을", "봄"], answer: 3, explanation: "한국에 와서부터 봄을 좋아하게 됐다고 해요." },
-  { question: "석매튜의 커스텀 인이어 디자인에 들어간 애니메이션은?", options: ["센과 치히로", "너의 이름은", "하울의 움직이는 성", "마녀 배달부 키키"], answer: 2, explanation: "그의 인이어에는 '하울의 움직이는 성' 테마가 있어요!" },
-  { question: "석매튜가 자주 부른다고 밝힌 노래 장르는?", options: ["힙합", "R&B", "록", "EDM"], answer: 1, explanation: "그는 R&B 장르를 즐겨 들어요." },
-  { question: "석매튜가 치킨을 먹을 때 듣고 싶은 음악으로 언급한 곡은?", options: ["인생의 회전목마", "파라다이스", "그날들", "첫눈처럼 너에게 가겠다"], answer: 1, explanation: "드라마 ‘꽃보다 남자’의 OST, '파라다이스'를 꼽았어요!" }
-];
-    let currentQuestion = 0, score = 0;
+    const quizData = [
+      { question: "석매튜는 어디에서 태어났나요?", options: ["캐나다 밴쿠버", "캐나다 토론토", "캐나다 써리", "미국 시애틀"], answer: 2 },
+      { question: "석매튜가 졸업한 고등학교는?", options: ["White Rock High", "Earl Marriott Secondary School", "Vancouver Arts School", "Maple Leaf Academy"], answer: 1 },
+      { question: "석매튜는 대학에서 어떤 전공을 하다 중퇴했나요?", options: ["생물학", "Health Science", "심리학", "체육학"], answer: 1 },
+      { question: "석매튜가 춤을 처음 시작한 나이는?", options: ["15살", "16살", "17살", "14살"], answer: 1 },
+      { question: "석매튜가 연습생 제안을 처음 받았을 당시 어떤 선택을 했나요?", options: ["바로 수락하고 한국으로 왔다", "무시했다", "거절했다가 다시 연락했다", "캐나다에서 훈련을 시작했다"], answer: 2 },
+      { question: "보이즈플래닛 당시 석매튜는 G그룹 비주얼 투표에서 몇 위였나요?", options: ["1위", "2위", "3위", "4위"], answer: 1 },
+      { question: "석매튜의 MBTI 성격 유형은?", options: ["ENFP", "INFP", "ENFJ", "ISTJ"], answer: 2 },
+      { question: "석매튜가 영어 내레이션을 맡은 콘텐츠로 옳지 않은 것은?", options: ["2023 KCON LA", "‘__ BAD’ Film 티저", "2024 한터차트", "뮤직뱅크 MC 멘트"], answer: 3 },
+      { question: "석매튜가 자주 언급한 자신의 매력 포인트는?", options: ["턱선", "복근", "눈웃음", "콧대"], answer: 2 },
+      { question: "OX: 석매튜의 눈 양옆에 있는 점은 팬들 사이에서 '대칭점'이라 불린다.", options: ["O", "X"], answer: 0 },
+      { question: "OX: 석매튜는 입가에 점이 없어 ‘수염점’이란 별명은 존재하지 않는다.", options: ["O", "X"], answer: 1 },
+      { question: "석매튜가 가장 자신 있어 하는 신체 부위는?", options: ["복근", "팔근육", "허벅지", "턱선"], answer: 1 },
+      { question: "석매튜가 무대에서 복근을 공개한 곡은?", options: ["Say My Name", "Back to ZEROBASE", "Love Killa", "In Bloom"], answer: 2 },
+      { question: "석매튜가 작사에 참여한 콘텐츠는?", options: ["‘__ BAD’ Film 티저", "Back Pack", "Back to ZEROBASE", "MAMA VCR"], answer: 0 },
+      { question: "석매튜가 실제로 팬들 손을 잡아준 장소는?", options: ["명동", "홍대", "강남", "이태원"], answer: 1 },
+      { question: "석매튜가 가장 좋아하는 시간대는?", options: ["아침 7시", "오후 12시", "오후 4시", "밤 10시"], answer: 1 },
+      { question: "석매튜가 좋아하는 계절은?", options: ["여름", "겨울", "가을", "봄"], answer: 3 },
+      { question: "석매튜의 커스텀 인이어 디자인에 들어간 애니메이션은?", options: ["센과 치히로", "너의 이름은", "하울의 움직이는 성", "마녀 배달부 키키"], answer: 2 },
+      { question: "석매튜가 자주 부른다고 밝힌 노래 장르는?", options: ["힙합", "R&B", "록", "EDM"], answer: 1 },
+      { question: "석매튜가 치킨을 먹을 때 듣고 싶은 음악으로 언급한 곡은?", options: ["인생의 회전목마", "파라다이스", "그날들", "첫눈처럼 너에게 가겠다"], answer: 1 }
+    ];
+
+    let currentQuestion = 0;
 
     function startQuiz() {
+      quizData.forEach(q => delete q.userAnswer);
       currentQuestion = 0;
-      score = 0;
-      document.getElementById("startContainer").classList.add("hidden");
       document.getElementById("quizContainer").classList.remove("hidden");
-      document.getElementById("matthewImage").style.display = "none";
-      document.getElementById("result").innerText = "";
-      document.getElementById("startOver").classList.add("hidden");
-      document.getElementById("shareBtn").classList.add("hidden");
+      document.getElementById("resultContainer").classList.add("hidden");
       showQuestion();
     }
 
     function showQuestion() {
       const q = quizData[currentQuestion];
       document.getElementById("question").innerText = `Q${currentQuestion + 1}. ${q.question}`;
-      document.getElementById("options").innerHTML = q.options.map((opt, idx) =>
-        `<button onclick="checkAnswer(${idx}, this)">${opt}</button>`).join('');
-      document.getElementById("message").innerText = "";
-      document.getElementById("explanation").innerText = "";
+      document.getElementById("options").innerHTML = q.options.map((opt, idx) => {
+        const isSelected = q.userAnswer === idx ? 'correct' : '';
+        return `<button class="${isSelected}" onclick="selectAnswer(${idx})">${opt}</button>`;
+      }).join('');
       document.getElementById("prevBtn").style.display = currentQuestion === 0 ? "none" : "inline-block";
       document.getElementById("nextBtn").style.display = currentQuestion === quizData.length - 1 ? "none" : "inline-block";
       document.getElementById("submitBtn").classList.toggle("hidden", currentQuestion !== quizData.length - 1);
     }
 
-    function checkAnswer(selectedIndex, button) {
-      const current = quizData[currentQuestion];
-      const buttons = document.querySelectorAll("#options button");
-
-      button.classList.add("correct");
-
-      if (selectedIndex === current.answer) {
-        score++;
-      }
-
-      buttons.forEach(btn => btn.disabled = true);
-      document.getElementById("message").innerText = "";
-      document.getElementById("explanation").innerText = "";
+    function selectAnswer(idx) {
+      quizData[currentQuestion].userAnswer = idx;
+      showQuestion();
     }
 
     function goToPrevious() {
@@ -223,6 +200,23 @@ const quizData = [
       }
     }
 
+    function showResult() {
+      let score = 0;
+      quizData.forEach(q => {
+        if (q.userAnswer === q.answer) score++;
+      });
+
+      const rank = getFanRank(score, quizData.length);
+      const rankMessage = getRankMessage(rank);
+
+      document.getElementById("quizContainer").classList.add("hidden");
+      document.getElementById("resultContainer").classList.remove("hidden");
+      document.getElementById("rank").innerText = `🏅 ${rank}`;
+      document.getElementById("scoreText").innerText = `📊 점수: ${score}/${quizData.length}`;
+      document.getElementById("message").innerText = `💖 매튜가 말해요: '고생했어!'`;
+      document.getElementById("encouragement").innerText = `💡 ${rankMessage}`;
+    }
+
     function getFanRank(score, total) {
       const ratio = score / total;
       if (ratio >= 0.9) return "석류 528등급";
@@ -236,63 +230,22 @@ const quizData = [
         case "석류 528등급": return "🎊 완벽한 석류! 매튜가 기억할지도 몰라요 💖";
         case "석류 28등급": return "👏 꽤 가까워요! 매튜에 대한 애정이 느껴져요!";
         case "석류 5등급": return "🌱 이제 막 싹트는 석류! 조금만 더 알면 완벽해요!";
-        case "석류 2등급": return "💡 너무 아쉽지만 시작은 언제나 설렘이지! 나무위키에서 매튜를 더 알아볼까?";
+        case "석류 2등급": return "너무 아쉽지만 시작은 언제나 설렘이지! 나무위키에서 매튜를 더 알아볼까?";
         default: return "";
       }
     }
 
-    function showResult() {
-      const rank = getFanRank(score, quizData.length);
-      const rankMessage = getRankMessage(rank);
-      const scoreText = `점수: ${score}/${quizData.length}`;
-      const descriptionHtml = `<p style='margin-top:10px;'>${rankMessage}</p>`;
-
-      document.getElementById("question").innerText = "퀴즈 완료!";
-      document.getElementById("options").innerHTML = "";
-      document.getElementById("explanation").innerText = "";
-
-      if (score >= quizData.length * 0.7) {
-        document.getElementById("result").innerHTML = `🎉 ${rank}!<br>${scoreText}${descriptionHtml}`;
-        document.getElementById("matthewImage").style.display = "block";
-      } else {
-        document.getElementById("result").innerHTML = `
-          💡 ${rank}! <br>
-          <a href='https://namu.wiki/w/%EC%84%9D%EB%A7%A4%ED%8A%9C' 
-             target='_blank' 
-             style='display:inline-block; margin: 10px 0; padding: 8px 16px; background-color: #ffe0f0;
-             color: #d10072; text-decoration: none; border-radius: 8px; font-weight: bold;'>
-            매튜와 더 가까워지는 방법 💕</a><br>${scoreText}${descriptionHtml}`;
-      }
-
-      document.getElementById("message").innerText = "💖 매튜가 말해요: '고생했어!'";
-      document.getElementById("startOver").classList.remove("hidden");
-      document.getElementById("shareBtn").classList.remove("hidden");
-      document.getElementById("prevBtn").style.display = "none";
-      document.getElementById("nextBtn").style.display = "none";
-      document.getElementById("submitBtn").classList.add("hidden");
-    }
-
     function shareResult() {
-      const text = `나는 ${score}/${quizData.length}점! 석매튜 팬퀴즈에서 ${getFanRank(score, quizData.length)}이야!`;
+      const score = quizData.filter(q => q.userAnswer === q.answer).length;
+      const rank = getFanRank(score, quizData.length);
+      const text = `나는 ${score}/${quizData.length}점! 석매튜 팬퀴즈에서 ${rank}이야!`;
       const url = encodeURIComponent(window.location.href);
       const shareText = encodeURIComponent(text);
-      const instagram = `https://www.instagram.com/?url=${url}`;
-      const x = `https://twitter.com/intent/tweet?text=${shareText}&url=${url}`;
-
-      const shareWindow = window.open('', '_blank', 'width=400,height=400');
-      shareWindow.document.write(`
-        <div style="padding:20px;font-family:sans-serif;text-align:center;">
-          <h2>공유하기</h2>
-          <a href="${instagram}" target="_blank" style="display:block;margin:10px;">📸 인스타그램으로 공유</a>
-          <a href="${x}" target="_blank" style="display:block;margin:10px;">🐦 X(구 트위터)로 공유</a>
-        </div>
-      `);
+      const shareUrl = `https://twitter.com/intent/tweet?text=${shareText}&url=${url}`;
+      window.open(shareUrl, '_blank');
     }
 
-    function toggleMusic() {
-      const music = document.getElementById("bgMusic");
-      music.style.display = music.style.display === "none" ? "block" : "none";
-    }
+    startQuiz();
   </script>
 </body>
 </html>
