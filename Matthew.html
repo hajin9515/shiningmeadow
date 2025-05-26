@@ -155,95 +155,119 @@ const quizData = [
 
     let currentQuestion = 0, score = 0;
 
-    function startQuiz() {
-      currentQuestion = 0; score = 0;
-      document.getElementById("startContainer").classList.add("hidden");
-      document.getElementById("quizContainer").classList.remove("hidden");
-      document.getElementById("matthewImage").style.display = "none";
-      document.getElementById("result").innerText = "";
-      document.getElementById("startOver").classList.add("hidden");
-      document.getElementById("shareBtn").classList.add("hidden");
-      showQuestion();
-    }
+function startQuiz() {
+  currentQuestion = 0; score = 0;
+  document.getElementById("startContainer").classList.add("hidden");
+  document.getElementById("quizContainer").classList.remove("hidden");
+  document.getElementById("matthewImage").style.display = "none";
+  document.getElementById("result").innerText = "";
+  document.getElementById("startOver").classList.add("hidden");
+  document.getElementById("shareBtn").classList.add("hidden");
+  showQuestion();
+}
 
-    function showQuestion() {
-      const q = quizData[currentQuestion];
-      document.getElementById("question").innerText = `Q${currentQuestion + 1}. ${q.question}`;
-      document.getElementById("options").innerHTML = q.options.map((opt, idx) =>
-        `<button onclick="checkAnswer(${idx})">${opt}</button>`).join('');
-      document.getElementById("message").innerText = `💖 매튜가 말해요: '석류~ 할 수 있어! 파이팅~'`;
-      document.getElementById("explanation").innerText = "";
-      document.getElementById("prevBtn").style.display = currentQuestion === 0 ? "none" : "inline-block";
-      document.getElementById("nextBtn").style.display = currentQuestion === quizData.length - 1 ? "none" : "inline-block";
-      document.getElementById("submitBtn").classList.toggle("hidden", currentQuestion !== quizData.length - 1);
-    }
+function showQuestion() {
+  const q = quizData[currentQuestion];
+  document.getElementById("question").innerText = `Q${currentQuestion + 1}. ${q.question}`;
+  document.getElementById("options").innerHTML = q.options.map((opt, idx) =>
+    `<button onclick="checkAnswer(${idx})">${opt}</button>`).join('');
+  document.getElementById("message").innerText = `💖 매튜가 말해요: '석류~ 할 수 있어! 파이팅~'`;
+  document.getElementById("explanation").innerText = "";
+  document.getElementById("prevBtn").style.display = currentQuestion === 0 ? "none" : "inline-block";
+  document.getElementById("nextBtn").style.display = currentQuestion === quizData.length - 1 ? "none" : "inline-block";
+  document.getElementById("submitBtn").classList.toggle("hidden", currentQuestion !== quizData.length - 1);
+}
 
-    function goToPrevious() {
-      if (currentQuestion > 0) {
-        currentQuestion--;
-        showQuestion();
-      }
-    }
+function checkAnswer(selected) {
+  const correct = quizData[currentQuestion].answer;
+  score += selected === correct ? 1 : 0;
+  document.getElementById("message").innerText = selected === correct
+    ? `💖 매튜: '맞췄어~ 완전 대단해!'`
+    : `😢 매튜: '아깝다~ 하지만 다음 문제도 있어!'`;
+  document.getElementById("explanation").innerText = `📘 힌트: ${quizData[currentQuestion].explanation}`;
+}
 
-    function goToNext() {
-      if (currentQuestion < quizData.length - 1) {
-        currentQuestion++;
-        showQuestion();
-      }
-    }
+function goToPrevious() {
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    showQuestion();
+  }
+}
 
-    function getFanRank(score, total) {
-      const ratio = score / total;
-      if (ratio >= 0.9) return "석류 528등급";
-      if (ratio >= 0.5) return "석류 28등급";
-      if (ratio >= 0.4) return "석류 5등급";
-      return "석류 2등급";
-    }
+function goToNext() {
+  if (currentQuestion < quizData.length - 1) {
+    currentQuestion++;
+    showQuestion();
+  }
+}
 
-    function showResult() {
-      const rank = getFanRank(score, quizData.length);
-      document.getElementById("question").innerText = "퀴즈 완료!";
-      document.getElementById("options").innerHTML = "";
-      document.getElementById("explanation").innerText = "";
-      document.getElementById("result").innerHTML = score >= quizData.length * 0.7
-        ? `🎉 ${rank}! 점수: ${score}/${quizData.length}`
-        : `💡 ${rank}! <br><a href='https://namu.wiki/w/%EC%84%9D%EB%A7%A4%ED%8A%9C' target='_blank'
-            style='display:inline-block; margin: 10px 0; padding: 8px 16px; background-color: #ffe0f0;
-            color: #d10072; text-decoration: none; border-radius: 8px; font-weight: bold;'>
-            매튜와 더 가까워지는 방법 💕</a><br>점수: ${score}/${quizData.length}`;
-      if (score >= quizData.length * 0.7) {
-        document.getElementById("matthewImage").style.display = "block";
-      }
-      document.getElementById("message").innerText = "💖 매튜가 말해요: '고생했어!'";
-      document.getElementById("startOver").classList.remove("hidden");
-      document.getElementById("shareBtn").classList.remove("hidden");
-      document.getElementById("prevBtn").style.display = "none";
-      document.getElementById("nextBtn").style.display = "none";
-      document.getElementById("submitBtn").classList.add("hidden");
-    }
+function getFanRank(score, total) {
+  const ratio = score / total;
+  if (ratio >= 0.9) return "석류 528등급";
+  if (ratio >= 0.5) return "석류 28등급";
+  if (ratio >= 0.4) return "석류 5등급";
+  return "석류 2등급";
+}
 
-    function shareResult() {
-      const text = `나는 ${score}/${quizData.length}점! 석매튜 팬퀴즈에서 ${getFanRank(score, quizData.length)}이야!`;
-      const url = encodeURIComponent(window.location.href);
-      const shareText = encodeURIComponent(text);
-      const kakao = `https://share.kakao.com/talk/friends/picker/link?app_key=YOUR_APP_KEY&template_id=YOUR_TEMPLATE_ID&template_args={\"msg\":\"${shareText}\"}`;
-      const instagram = `https://www.instagram.com/?url=${url}`;
-      const x = `https://twitter.com/intent/tweet?text=${shareText}&url=${url}`;
+function getRankMessage(rank) {
+  switch (rank) {
+    case "석류 528등급": return "🎊 완벽한 석류! 매튜가 기억할지도 몰라요 🍑";
+    case "석류 28등급": return "👏 꽤 가까워요! 매튜에 대한 애정이 느껴져요!";
+    case "석류 5등급": return "🌱 이제 막 싹트는 석류! 조금만 더 알면 완벽해요!";
+    case "석류 2등급": return "💡 아직은 거리감이 조금 있어요. 나무위키에서 더 알아볼까요?";
+    default: return "";
+  }
+}
 
-      const shareWindow = window.open('', '_blank', 'width=400,height=400');
-      shareWindow.document.write(`
-        <div style="padding:20px;font-family:sans-serif;text-align:center;">
-          <h2>공유하기</h2>
-          <a href="${instagram}" target="_blank" style="display:block;margin:10px;">📸 인스타그램으로 공유</a>
-          <a href="${x}" target="_blank" style="display:block;margin:10px;">🐦 X(구 트위터)로 공유</a>
-        </div>
-      `);
-    }
+function showResult() {
+  const rank = getFanRank(score, quizData.length);
+  const rankMessage = getRankMessage(rank);
+  document.getElementById("question").innerText = "퀴즈 완료!";
+  document.getElementById("options").innerHTML = "";
+  document.getElementById("explanation").innerText = "";
+  const scoreText = `점수: ${score}/${quizData.length}`;
+  const descriptionHtml = `<p style='margin-top:10px;'>${rankMessage}</p>`;
 
-    function toggleMusic() {
-      const music = document.getElementById("bgMusic");
-      music.style.display = music.style.display === "none" ? "block" : "none";
-    }
-  </script>
-</body>
-</html>
+  if (score >= quizData.length * 0.7) {
+    document.getElementById("result").innerHTML = `🎉 ${rank}!<br>${scoreText}${descriptionHtml}`;
+    document.getElementById("matthewImage").style.display = "block";
+  } else {
+    document.getElementById("result").innerHTML = `
+      💡 ${rank}! <br>
+      <a href='https://namu.wiki/w/%EC%84%9D%EB%A7%A4%ED%8A%9C' 
+         target='_blank' 
+         style='display:inline-block; margin: 10px 0; padding: 8px 16px; background-color: #ffe0f0;
+         color: #d10072; text-decoration: none; border-radius: 8px; font-weight: bold;'>
+        매튜와 더 가까워지는 방법 💕</a><br>${scoreText}${descriptionHtml}`;
+  }
+
+  document.getElementById("message").innerText = "💖 매튜가 말해요: '고생했어!'";
+  document.getElementById("startOver").classList.remove("hidden");
+  document.getElementById("shareBtn").classList.remove("hidden");
+  document.getElementById("prevBtn").style.display = "none";
+  document.getElementById("nextBtn").style.display = "none";
+  document.getElementById("submitBtn").classList.add("hidden");
+}
+
+function shareResult() {
+  const text = `나는 ${score}/${quizData.length}점! 석매튜 팬퀴즈에서 ${getFanRank(score, quizData.length)}이야!`;
+  const url = encodeURIComponent(window.location.href);
+  const shareText = encodeURIComponent(text);
+  const instagram = `https://www.instagram.com/?url=${url}`;
+  const x = `https://twitter.com/intent/tweet?text=${shareText}&url=${url}`;
+
+  const shareWindow = window.open('', '_blank', 'width=400,height=400');
+  shareWindow.document.write(`
+    <div style="padding:20px;font-family:sans-serif;text-align:center;">
+      <h2>공유하기</h2>
+      <a href="${instagram}" target="_blank" style="display:block;margin:10px;">📸 인스타그램으로 공유</a>
+      <a href="${x}" target="_blank" style="display:block;margin:10px;">🐦 X(구 트위터)로 공유</a>
+    </div>
+  `);
+}
+
+function toggleMusic() {
+  const music = document.getElementById("bgMusic");
+  music.style.display = music.style.display === "none" ? "block" : "none";
+}
+</script>
