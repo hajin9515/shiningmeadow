@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>매튜와 나의 거리? 528cm!</title>
 
-  <!-- OG & Twitter 메타태그 생략 없이 유지 -->
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+
+  <!-- OG & Twitter 메타태그 -->
   <meta property="og:title" content="매튜와 나의 거리? 528cm!"/>
   <meta property="og:description" content="나는 매튜와 얼마나 가까울까? 팬심 테스트 지금 바로 시작!"/>
   <meta property="og:image" content="https://github.com/hajin9515/shiningmeadow/blob/main/images/matthew-thumbnail.jpg?raw=true"/>
@@ -19,12 +22,13 @@
 
   <style>
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: 'Gowun Dodum', sans-serif;
       background: linear-gradient(to bottom right, #cfefff, #e8f9ff);
       padding: 20px;
       text-align: center;
       color: #003f5c;
     }
+
     .quiz-box {
       background: white;
       padding: 20px;
@@ -33,10 +37,12 @@
       max-width: 600px;
       margin: auto;
     }
+
     .question {
       font-size: 20px;
       margin-bottom: 10px;
     }
+
     .options button {
       display: block;
       width: 100%;
@@ -50,62 +56,101 @@
       cursor: pointer;
       transition: background 0.3s;
     }
+
     .options button:hover {
       background-color: #82cffa;
     }
-    .correct {
-      background-color: #fff8b3 !important;
-      border: 2px solid #f7ce4e;
-    }
-    .result-title {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: #ff3399;
-    }
-    .fan-rank, .score, .message, .encouragement {
-      margin: 10px 0;
-    }
-    .start-over, .share-btn, .start-btn {
-      margin: 10px 5px;
-      padding: 10px 20px;
-      background-color: #cceeff;
-      color: #003f5c;
-      border: none;
+
+    .question-media {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
       border-radius: 10px;
-      cursor: pointer;
-      font-size: 14px;
+      margin-top: 10px;
     }
-    .wiki-link {
-      display: inline-block;
-      margin: 10px 0;
-      padding: 8px 16px;
-      background-color: #ffe0f0;
-      color: #d10072;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-    }
-    .matthew-pic {
-      max-width: 200px;
-      border-radius: 15px;
-      margin-bottom: 15px;
-    }
-    .music-toggle {
-      font-size: 20px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #0077cc;
-      margin-left: 10px;
-    }
+
     .hidden { display: none; }
+
+    .result-box-cute {
+      background: #fff0f7;
+      border: 3px dashed #ffaad4;
+      border-radius: 25px;
+      padding: 30px 20px;
+      max-width: 500px;
+      margin: 30px auto;
+      box-shadow: 0 8px 18px rgba(255, 192, 203, 0.4);
+      text-align: center;
+      color: #6b003e;
+      font-family: 'Gowun Dodum', sans-serif;
+      position: relative;
+    }
+
+    .result-ribbon {
+      position: absolute;
+      top: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #ffaad4;
+      color: white;
+      padding: 6px 14px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 15px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .result-content p {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    #message {
+      font-family: 'Nanum Pen Script', cursive;
+      font-size: 20px;
+      color: #e91e63;
+      margin-top: 12px;
+    }
+
+    .wiki-link-cute {
+      display: inline-block;
+      margin-top: 10px;
+      color: #d63384;
+      font-weight: bold;
+      text-decoration: underline;
+      transition: color 0.3s;
+    }
+
+    .wiki-link-cute:hover {
+      color: #b3005e;
+    }
+
+    .result-buttons {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .result-buttons button {
+      background-color: #ffc2e2;
+      color: #6b003e;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 15px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(255, 182, 193, 0.3);
+      transition: background-color 0.3s;
+    }
+
+    .result-buttons button:hover {
+      background-color: #ff9fcc;
+    }
   </style>
 </head>
 <body>
   <div class="quiz-box">
-
-    <!-- ⏱ 퀴즈 인트로 -->
     <div id="introContainer">
       <img src="https://github.com/hajin9515/shiningmeadow/blob/main/images/matthew-thumbnail.jpg?raw=true" alt="매튜 이미지" class="matthew-pic">
       <h2>💖 매튜에 대해 얼마나 알고 있을까?</h2>
@@ -114,9 +159,9 @@
       <button class="music-toggle" onclick="toggleMusic()">🎵</button>
     </div>
 
-    <!-- 📝 퀴즈 영역 -->
     <div id="quizContainer" class="hidden">
       <div id="question" class="question"></div>
+      <div id="mediaContainer" class="question-media"></div>
       <div id="options" class="options"></div>
       <div style="margin-top: 20px;">
         <button id="prevBtn" onclick="goToPrevious()">⬅ 이전</button>
@@ -125,28 +170,31 @@
       </div>
     </div>
 
-    <!-- 🎉 결과 영역 -->
     <div id="resultContainer" class="hidden">
-      <div class="result-title">💗 매튜와 나의 거리? 528cm!</div>
-      <div class="fan-rank" id="rank"></div>
-      <div class="score" id="scoreText"></div>
-      <div class="message" id="message"></div>
-      <div class="encouragement" id="encouragement"></div>
-      <a href='https://namu.wiki/w/%EC%84%9D%EB%A7%A4%ED%8A%9C' target='_blank' class="wiki-link">매튜와 더 가까워지는 방법 💕</a>
-      <div>
-        <button onclick="startQuiz()" class="start-over">🔁 다시 풀기</button>
-        <button onclick="shareResult()" class="share-btn">📤 결과 공유하기</button>
+      <div class="result-box-cute">
+        <div class="result-ribbon">💖 매튜와 나의 거리? 528cm!</div>
+        <div class="result-content">
+          <p class="fan-rank" id="rank"></p>
+          <p class="score" id="scoreText"></p>
+          <p class="message" id="message"></p>
+          <p class="encouragement" id="encouragement"></p>
+          <a href="https://namu.wiki/w/%EC%84%9D%EB%A7%A4%ED%8A%9C" target="_blank" class="wiki-link-cute">💗 매튜와 더 가까워지는 방법 보기</a>
+        </div>
+        <div class="result-buttons">
+          <button onclick="startQuiz()">🔁 다시 풀기</button>
+          <button onclick="shareResult()">📤 결과 공유하기</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- 🔊 배경 음악 -->
-  <iframe id="bgMusic" width="0" height="0" style="display:none;" 
+  <iframe id="bgMusic" width="0" height="0" style="display:none;"
     src="https://www.youtube.com/embed/ym-YtnwNhAk?autoplay=1&loop=1&playlist=ym-YtnwNhAk"
     title="배경 음악" frameborder="0" allow="autoplay; encrypted-media">
   </iframe>
 
   <script>
+
 const quizData = [
   { question: "석매튜는 어디에서 태어났나요?", options: ["캐나다 밴쿠버", "캐나다 토론토", "캐나다 써리", "미국 시애틀"], answer: 2, explanation: "석매튜는 캐나다 브리티시컬럼비아주 써리 출신이에요!" },
   { question: "석매튜가 졸업한 고등학교는?", options: ["White Rock High", "Earl Marriott Secondary School", "Vancouver Arts School", "Maple Leaf Academy"], answer: 1, explanation: "그가 졸업한 고등학교는 South Surrey에 있는 Earl Marriott입니다." },
@@ -170,7 +218,37 @@ const quizData = [
   { question: "석매튜가 치킨을 먹을 때 듣고 싶은 음악으로 언급한 곡은?", options: ["인생의 회전목마", "파라다이스", "그날들", "첫눈처럼 너에게 가겠다"], answer: 1, explanation: "드라마 ‘꽃보다 남자’의 OST, '파라다이스'를 꼽았어요!" }
 ];
 
+    const mediaList = [
+      "https://i.namu.wiki/i/ugfM458HObCY-7DSdXDlz-gLIdyjBlt_g83sw655pA4CVzH8iqBWzErEF6Br80D_SvmkpLmSYUnCKv_WyVrOuQ.mp4",
+      "https://i.namu.wiki/i/9x6fTSU_C2rCA8DI1O2E7h1QQTt-7jaHB22MINYg8UvTLJwde_DASe7_YcfSME2FHzoHQoFFUcSiLSZQGWzInw.mp4",
+      "https://i.namu.wiki/i/tBChiKHnOtsLfuXctirIaik9bqnuGMglvLF9f2MCq0eAFba6o6k59qBMRHB1bcdbB0Obts5615Na7oThVYCa9A.mp4",
+      "https://i.namu.wiki/i/VVmLKyji8jP4QJUkgobd594D39wPXDq5Ti3mlLXTK1frmyBeLNHc3E5op72SbiA94Y3pGE0tEPYHDMVuRKvQ-Q.mp4"
+    ];
+
+
+    function getRandomMediaTag() {
+      const media = mediaList[Math.floor(Math.random() * mediaList.length)];
+      return media.endsWith(".mp4")
+        ? `<video class="question-media" autoplay muted loop playsinline><source src="${media}" type="video/mp4"></video>`
+        : `<img class="question-media" src="${media}" alt="매튜 이미지">`;
+    }
+
     let currentQuestion = 0;
+
+function showQuestion() {
+  const q = quizData[currentQuestion];
+  document.getElementById("question").innerText = `Q${currentQuestion + 1}. ${q.question}`;
+  document.getElementById("mediaContainer").innerHTML = getRandomMediaTag();
+  document.getElementById("options").innerHTML = q.options.map((opt, idx) => {
+    const isSelected = q.userAnswer === idx ? 'selected' : '';
+    return `<button class="${isSelected}" onclick="selectAnswer(${idx})">${opt}</button>`;
+  }).join('');
+
+  document.getElementById("prevBtn").style.display = currentQuestion === 0 ? "none" : "inline-block";
+  document.getElementById("nextBtn").style.display = currentQuestion === quizData.length - 1 ? "none" : "inline-block";
+  document.getElementById("submitBtn").classList.toggle("hidden", currentQuestion !== quizData.length - 1);
+}
+
 
     function startQuiz() {
       quizData.forEach(q => delete q.userAnswer);
@@ -181,39 +259,23 @@ const quizData = [
       showQuestion();
     }
 
-    function showQuestion() {
-      const q = quizData[currentQuestion];
-      document.getElementById("question").innerText = `Q${currentQuestion + 1}. ${q.question}`;
-      document.getElementById("options").innerHTML = q.options.map((opt, idx) => {
-        const isSelected = q.userAnswer === idx ? 'correct' : '';
-        return `<button class="${isSelected}" onclick="selectAnswer(${idx})">${opt}</button>`;
-      }).join('');
-      document.getElementById("prevBtn").style.display = currentQuestion === 0 ? "none" : "inline-block";
-      document.getElementById("nextBtn").style.display = currentQuestion === quizData.length - 1 ? "none" : "inline-block";
-      document.getElementById("submitBtn").classList.toggle("hidden", currentQuestion !== quizData.length - 1);
-    }
-
     function selectAnswer(idx) {
       quizData[currentQuestion].userAnswer = idx;
       showQuestion();
     }
 
     function goToPrevious() {
-      if (currentQuestion > 0) {
-        currentQuestion--;
-        showQuestion();
-      }
+      if (currentQuestion > 0) currentQuestion--;
+      showQuestion();
     }
 
     function goToNext() {
-      if (currentQuestion < quizData.length - 1) {
-        currentQuestion++;
-        showQuestion();
-      }
+      if (currentQuestion < quizData.length - 1) currentQuestion++;
+      showQuestion();
     }
 
     function showResult() {
-      let score = quizData.filter(q => q.userAnswer === q.answer).length;
+      let score = quizData.reduce((acc, q) => acc + (q.userAnswer === q.answer ? 1 : 0), 0);
       const rank = getFanRank(score, quizData.length);
       const message = getRankMessage(rank);
 
@@ -235,28 +297,23 @@ const quizData = [
 
     function getRankMessage(rank) {
       switch (rank) {
-        case "석류 528등급": return "🎊 완벽한 석류! 매튜가 기억할지도 몰라요 💖";
-        case "석류 28등급": return "👏 꽤 가까워요! 매튜에 대한 애정이 느껴져요!";
-        case "석류 5등급": return "🌱 이제 막 싹트는 석류! 조금만 더 알면 완벽해요!";
-        case "석류 2등급": return "💡 너무 아쉽지만 시작은 언제나 설렘이지!";
+        case "석류 528등급": return "완벽한 석류! 매튜가 기억할지도 몰라요 💖";
+        case "석류 28등급": return "꽤 가까워요! 매튜에 대한 애정이 느껴져요! 👏";
+        case "석류 5등급": return "이제 막 싹트는 석류! 조금만 더 알면 완벽해요! 🌱";
+        case "석류 2등급": return "아쉽지만 시작은 설렘이지! 매튜를 더 알아봐요! 💡";
         default: return "";
       }
     }
 
-    function shareResult() {
-      const score = quizData.filter(q => q.userAnswer === q.answer).length;
-      const rank = getFanRank(score, quizData.length);
-      const text = `나는 ${score}/${quizData.length}점! 석매튜 팬퀴즈에서 ${rank}이야!`;
-      const url = encodeURIComponent(window.location.href);
-      const shareText = encodeURIComponent(text);
-      const shareUrl = `https://twitter.com/intent/tweet?text=${shareText}&url=${url}`;
-      window.open(shareUrl, '_blank');
-    }
-
     function toggleMusic() {
       const music = document.getElementById("bgMusic");
-      music.style.display = (music.style.display === "none") ? "block" : "none";
+      if (music.style.display === "none") {
+        music.style.display = "block";
+      } else {
+        music.style.display = "none";
+      }
     }
   </script>
 </body>
 </html>
+
